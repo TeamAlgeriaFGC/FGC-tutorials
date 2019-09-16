@@ -1,0 +1,52 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+@TeleOp
+
+public class HolonomicDrive extends LinearOpMode {
+
+DcMotorEx rightFront;
+DcMotorEx rightBack;
+DcMotorEx leftFront;
+DcMotorEx leftBack;
+
+    @Override
+    public void runOpMode() {
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        rightBack  = hardwareMap.get(DcMotorEx.class, "rightBack");
+        leftFront  = hardwareMap.get(DcMotorEx.class, "leftFront");
+        leftBack   = hardwareMap.get(DcMotorEx.class, "leftBack");
+        
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+  
+  
+  float  powerY = gamepad1.left_stick_y;
+  float  powerX = -gamepad1.left_stick_x;
+  float  rot = gamepad1.right_stick_x;
+  
+  float  RF = powerY-powerX-rot;
+  float  RB = powerY+powerX-rot;
+  float  LF = -powerY-powerX-rot;
+  float  LB = -powerY+powerX-rot;
+  
+  RF = Range.clip(RF,-1,1);
+  RB = Range.clip(RB,-1,1); 
+  LF = Range.clip(LF,-1,1); 
+  LB = Range.clip(LB,-1,1); 
+    
+    rightFront.setPower(RF);
+    rightBack.setPower(RB);
+    leftFront.setPower(LF);
+    leftBack.setPower(LB);
+
+        }
+    }
+}
